@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ruang Konsultasi - Telemedicine</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <h1>Ruang Konsultasi</h1>
+    <div class="sub" id="bookingSummary">Memuat data booking...</div>
+  </div>
+  <a href="index.html" class="btn btn-secondary" style="color:white;border-color:white;">Keluar</a>
+</div>
+
+<div class="container" id="mainContainer" style="display:none;">
+
+  <div class="card" id="statusCard">
+    <span id="statusBadge" class="badge badge-pending">-</span>
+    <span id="doctorControls" style="float:right;"></span>
+  </div>
+
+  <div class="card">
+    <h2>Video Call</h2>
+    <iframe id="videoFrame" class="video-frame" allow="camera; microphone; fullscreen; display-capture; autoplay"></iframe>
+    <p class="helper-text">Jika video tidak muncul, pastikan browser mengizinkan akses kamera/mikrofon. Video call ditenagai Jitsi Meet.</p>
+  </div>
+
+  <div class="card">
+    <h2>Chat Konsultasi</h2>
+    <div class="chat-window" id="chatWindow"></div>
+    <div class="chat-input-row">
+      <textarea id="chatInput" placeholder="Tulis pesan..."></textarea>
+      <button id="sendChatBtn">Kirim</button>
+    </div>
+  </div>
+
+  <div class="card" id="doctorNotesCard" style="display:none;">
+    <h2>Catatan Dokter (Anamnesa & Diagnosis)</h2>
+    <label>Catatan / Anamnesa</label>
+    <textarea id="doctorNotesInput" rows="3"></textarea>
+    <label>Diagnosis</label>
+    <input type="text" id="diagnosisInput" />
+    <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+      <button id="saveNotesBtn">Simpan Catatan</button>
+      <a id="goToPrescriptionBtn" class="btn btn-secondary" href="#">Buat / Kelola E-Resep</a>
+      <button id="completeConsultationBtn" class="btn-danger">Selesaikan Konsultasi</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Keluhan Awal Pasien</h2>
+    <p id="complaintText" style="color:var(--text-muted);"></p>
+    <a id="prescriptionLinkForPatient" class="link-plain" href="#" style="display:none;">Lihat E-Resep Saya &rarr;</a>
+  </div>
+
+</div>
+
+<div class="container" id="loadingContainer">
+  <div class="card"><p>Memuat ruang konsultasi...</p></div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabaseClient.js"></script>
+<script src="assets/js/consultation.js"></script>
+</body>
+</html>

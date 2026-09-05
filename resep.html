@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>E-Resep - Telemedicine</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="topbar no-print">
+  <div>
+    <h1>E-Resep</h1>
+    <div class="sub" id="rxSummary">Memuat...</div>
+  </div>
+  <a href="index.html" class="btn btn-secondary" style="color:white;border-color:white;">Keluar</a>
+</div>
+
+<div class="container" id="loadingContainer">
+  <div class="card"><p>Memuat data resep...</p></div>
+</div>
+
+<div class="container" id="mainContainer" style="display:none;">
+
+  <!-- Kop resep untuk cetak -->
+  <div class="print-only" id="printHeader">
+    <h2 style="margin-bottom:0;" id="printHospitalName"></h2>
+    <p style="margin-top:2px;">Resep Elektronik Konsultasi Telemedicine</p>
+    <hr />
+  </div>
+
+  <div class="card">
+    <h2 class="no-print">Informasi Konsultasi</h2>
+    <p><strong>Pasien:</strong> <span id="infoPatient"></span></p>
+    <p><strong>Dokter:</strong> <span id="infoDoctor"></span></p>
+    <p><strong>Tanggal:</strong> <span id="infoDate"></span></p>
+    <p><strong>Diagnosis:</strong> <span id="infoDiagnosis"></span></p>
+  </div>
+
+  <!-- MODE DOKTER: form input resep -->
+  <div class="card no-print" id="doctorFormCard" style="display:none;">
+    <h2>Input Obat</h2>
+    <div id="itemsContainer"></div>
+    <button id="addItemBtn" class="btn-secondary" type="button">+ Tambah Obat</button>
+
+    <label style="margin-top:16px;">Catatan untuk Farmasi/Pasien</label>
+    <textarea id="rxNotes" rows="2"></textarea>
+
+    <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;">
+      <button id="saveDraftBtn" class="btn-secondary" type="button">Simpan Draft</button>
+      <button id="issueBtn" type="button">Terbitkan Resep &amp; Kirim WhatsApp</button>
+    </div>
+    <div id="rxErrorBox"></div>
+  </div>
+
+  <!-- TAMPILAN RESEP (dokter setelah terbit, atau pasien) -->
+  <div class="card" id="viewCard" style="display:none;">
+    <h2 class="no-print">Detail Resep</h2>
+    <table>
+      <thead>
+        <tr><th>Nama Obat</th><th>Dosis</th><th>Frekuensi</th><th>Jumlah</th><th>Aturan Pakai</th></tr>
+      </thead>
+      <tbody id="itemsTableBody"></tbody>
+    </table>
+    <p id="viewNotes" style="margin-top:10px;"></p>
+    <p class="helper-text" id="viewStatus"></p>
+    <button class="no-print" onclick="window.print()" style="margin-top:10px;">Cetak / Simpan PDF</button>
+  </div>
+
+  <div class="empty-state" id="emptyState" style="display:none;">Belum ada e-resep untuk konsultasi ini.</div>
+
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabaseClient.js"></script>
+<script src="assets/js/prescription.js"></script>
+</body>
+</html>

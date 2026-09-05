@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Telemedicine RSU Allam Medica</title>
+<link rel="stylesheet" href="assets/css/style.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <h1 id="hospitalTitle">Layanan Telemedicine</h1>
+    <div class="sub">Konsultasi dokter online</div>
+  </div>
+  <a href="dokter/login.html" class="btn btn-secondary" style="color:white;border-color:white;">Login Staf</a>
+</div>
+
+<div class="container">
+
+  <div class="card" id="formCard">
+    <h2>Daftar Konsultasi Online</h2>
+    <p class="helper-text">Isi data di bawah untuk mendaftar konsultasi dengan dokter. Anda akan menerima kode akses konsultasi via WhatsApp.</p>
+
+    <div id="errorBox"></div>
+
+    <form id="bookingForm">
+      <div class="grid-2">
+        <div>
+          <label>Nama Lengkap Pasien *</label>
+          <input type="text" id="patientName" required />
+        </div>
+        <div>
+          <label>Nomor WhatsApp Aktif *</label>
+          <input type="text" id="patientPhone" placeholder="08xxxxxxxxxx" required />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div>
+          <label>NIK (opsional)</label>
+          <input type="text" id="patientNik" />
+        </div>
+        <div>
+          <label>Tanggal Lahir (opsional)</label>
+          <input type="date" id="patientBirthdate" />
+        </div>
+      </div>
+
+      <label>Pilih Dokter *</label>
+      <select id="doctorSelect" required>
+        <option value="">-- Memuat daftar dokter... --</option>
+      </select>
+
+      <div class="grid-2">
+        <div>
+          <label>Tanggal Konsultasi *</label>
+          <input type="date" id="bookingDate" required />
+        </div>
+        <div>
+          <label>Jam Konsultasi *</label>
+          <select id="bookingTime" required>
+            <option value="">-- Pilih tanggal & dokter dahulu --</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Jenis Konsultasi *</label>
+      <select id="consultationType" required>
+        <option value="chat_video">Chat + Video Call</option>
+        <option value="chat">Chat saja</option>
+        <option value="video">Video Call saja</option>
+      </select>
+
+      <label>Keluhan / Alasan Konsultasi *</label>
+      <textarea id="complaint" required placeholder="Contoh: demam 2 hari, batuk pilek, dll."></textarea>
+
+      <div style="margin-top:16px;">
+        <button type="submit" id="submitBtn">Daftar Konsultasi</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card success-box" id="successCard" style="display:none;">
+    <h2 style="color:#166534;">Pendaftaran Berhasil!</h2>
+    <p>Simpan kode akses konsultasi Anda di bawah ini. Kode yang sama juga dikirim ke WhatsApp Anda.</p>
+    <div class="room-code-box" id="roomCodeDisplay"></div>
+    <p class="helper-text">Gunakan tombol di bawah untuk masuk ke ruang konsultasi pada jadwal yang telah ditentukan.</p>
+    <a href="#" id="goToConsultationBtn" class="btn">Buka Ruang Konsultasi</a>
+    <a href="index.html" class="btn btn-secondary" style="margin-left:8px;">Daftar Lagi</a>
+  </div>
+
+  <div class="card">
+    <h2>Sudah punya kode akses?</h2>
+    <label>Masukkan Kode Akses Konsultasi</label>
+    <div style="display:flex; gap:8px;">
+      <input type="text" id="existingRoomCode" placeholder="Contoh: a1b2c3d4e5" style="text-transform:lowercase;" />
+      <button id="openExistingBtn" style="white-space:nowrap;">Buka</button>
+    </div>
+  </div>
+
+  <div class="footer-note">Sistem Telemedicine &middot; <span id="hospitalFooter"></span></div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabaseClient.js"></script>
+<script src="assets/js/booking.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard Admin - Telemedicine</title>
+<link rel="stylesheet" href="../assets/css/style.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <h1>Dashboard Admin Telemedicine</h1>
+    <div class="sub" id="adminLabel">Memuat...</div>
+  </div>
+  <button id="logoutBtn" class="btn-secondary" style="background:white;">Keluar</button>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="dokter">Dokter</button>
+      <button class="tab-btn" data-tab="jadwal">Jadwal Praktik</button>
+      <button class="tab-btn" data-tab="booking">Semua Booking</button>
+    </div>
+
+    <!-- TAB DOKTER -->
+    <div id="tabDokter">
+      <h2>Tambah / Edit Dokter</h2>
+      <div id="doctorFormErrorBox"></div>
+      <input type="hidden" id="doctorEditId" />
+      <div class="grid-2">
+        <div>
+          <label>Nama Dokter *</label>
+          <input type="text" id="doctorName" placeholder="dr. Contoh, Sp.PD" />
+        </div>
+        <div>
+          <label>Spesialisasi *</label>
+          <input type="text" id="doctorSpecialization" placeholder="Penyakit Dalam" />
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label>Nomor WhatsApp Dokter *</label>
+          <input type="text" id="doctorWhatsapp" placeholder="08xxxxxxxxxx" />
+        </div>
+        <div>
+          <label>Nomor STR (opsional)</label>
+          <input type="text" id="doctorStr" />
+        </div>
+      </div>
+      <label>User ID Akun Login (UUID dari Supabase Auth) *</label>
+      <input type="text" id="doctorUserId" placeholder="contoh: 3fa85f64-5717-4562-b3fc-2c963f66afa6" />
+      <p class="helper-text">Buat akun login dokter dulu di Supabase Dashboard &gt; Authentication &gt; Users, lalu salin User UID-nya ke sini agar dokter bisa masuk ke dashboardnya sendiri.</p>
+
+      <div style="margin-top:12px; display:flex; gap:8px;">
+        <button id="saveDoctorBtn">Simpan Dokter</button>
+        <button id="cancelEditDoctorBtn" class="btn-secondary" type="button" style="display:none;">Batal Edit</button>
+      </div>
+
+      <h2 style="margin-top:24px;">Daftar Dokter</h2>
+      <div id="doctorListContainer"><p class="empty-state">Memuat...</p></div>
+    </div>
+
+    <!-- TAB JADWAL -->
+    <div id="tabJadwal" style="display:none;">
+      <h2>Jadwal Praktik per Dokter</h2>
+      <label>Pilih Dokter</label>
+      <select id="scheduleDoctorSelect"></select>
+
+      <div id="scheduleFormErrorBox"></div>
+      <div class="grid-2">
+        <div>
+          <label>Hari</label>
+          <select id="schDay">
+            <option value="1">Senin</option>
+            <option value="2">Selasa</option>
+            <option value="3">Rabu</option>
+            <option value="4">Kamis</option>
+            <option value="5">Jumat</option>
+            <option value="6">Sabtu</option>
+            <option value="0">Minggu</option>
+          </select>
+        </div>
+        <div>
+          <label>Durasi per Slot (menit)</label>
+          <input type="number" id="schDuration" value="15" min="5" />
+        </div>
+      </div>
+      <div class="grid-2">
+        <div>
+          <label>Jam Mulai</label>
+          <input type="time" id="schStart" value="08:00" />
+        </div>
+        <div>
+          <label>Jam Selesai</label>
+          <input type="time" id="schEnd" value="12:00" />
+        </div>
+      </div>
+      <label>Kuota Pasien per Slot</label>
+      <input type="number" id="schQuota" value="1" min="1" />
+
+      <div style="margin-top:12px;">
+        <button id="addScheduleBtn" type="button">+ Tambah Jadwal</button>
+      </div>
+
+      <h3 style="margin-top:20px; font-size:14px;">Jadwal Tersimpan</h3>
+      <div id="scheduleListContainer"><p class="empty-state">Pilih dokter untuk melihat jadwal.</p></div>
+    </div>
+
+    <!-- TAB BOOKING -->
+    <div id="tabBooking" style="display:none;">
+      <h2>Semua Booking Konsultasi</h2>
+      <div class="grid-2">
+        <div>
+          <label>Filter Tanggal</label>
+          <input type="date" id="filterDate" />
+        </div>
+        <div>
+          <label>Filter Status</label>
+          <select id="filterStatus">
+            <option value="">Semua Status</option>
+            <option value="pending">Menunggu</option>
+            <option value="confirmed">Terkonfirmasi</option>
+            <option value="ongoing">Berlangsung</option>
+            <option value="completed">Selesai</option>
+            <option value="cancelled">Dibatalkan</option>
+          </select>
+        </div>
+      </div>
+      <button id="applyFilterBtn" type="button" style="margin-top:10px;">Terapkan Filter</button>
+      <div id="bookingTableContainer" style="margin-top:16px;"><p class="empty-state">Memuat...</p></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/supabaseClient.js"></script>
+<script src="../assets/js/admin-dashboard.js"></script>
+</body>
+</html>

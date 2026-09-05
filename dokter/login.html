@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login Staf - Telemedicine</title>
+<link rel="stylesheet" href="../assets/css/style.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>Login Staf Telemedicine</h1>
+</div>
+
+<div class="container" style="max-width:420px;">
+  <div class="card">
+    <h2>Masuk sebagai Dokter / Admin</h2>
+    <div id="errorBox"></div>
+    <form id="loginForm">
+      <label>Email</label>
+      <input type="email" id="email" required />
+      <label>Password</label>
+      <input type="password" id="password" required />
+      <div style="margin-top:16px;">
+        <button type="submit" id="loginBtn" style="width:100%;">Masuk</button>
+      </div>
+    </form>
+    <p class="helper-text" style="margin-top:14px;">Akun dibuat oleh admin sistem melalui Supabase Dashboard. Hubungi admin IT RS jika belum memiliki akun.</p>
+    <a href="../index.html" class="link-plain">&larr; Kembali ke halaman pasien</a>
+  </div>
+</div>
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/supabaseClient.js"></script>
+<script>
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const errorBox = document.getElementById("errorBox");
+  errorBox.innerHTML = "";
+  const btn = document.getElementById("loginBtn");
+  btn.disabled = true;
+  btn.textContent = "Memproses...";
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    errorBox.innerHTML = `<div class="error-box">Login gagal: ${error.message}</div>`;
+    btn.disabled = false;
+    btn.textContent = "Masuk";
+    return;
+  }
+
+  // Cek peran user di tabel staff_roles untuk arahkan ke dashboard yang tepat
+  const { data: roleRow, error: roleErr } = await supabaseClient
+    .from("staff_roles")
+    .select("role")
+    .eq("user_id", data.user.id)
+    .maybeSingle();
+
+  if (roleErr || !roleRow) {
+    errorBox.innerHTML = `<div class="error-box">Akun ini belum terdaftar sebagai staf. Hubungi admin untuk mengatur peran akun Anda di tabel staff_roles.</div>`;
+    await supabaseClient.auth.signOut();
+    btn.disabled = false;
+    btn.textContent = "Masuk";
+    return;
+  }
+
+  if (roleRow.role === "admin") {
+    window.location.href = "../admin/dashboard.html";
+  } else {
+    window.location.href = "dashboard.html";
+  }
+});
+</script>
+</body>
+</html>

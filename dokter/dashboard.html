@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard Dokter - Telemedicine</title>
+<link rel="stylesheet" href="../assets/css/style.css" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <h1>Dashboard Dokter</h1>
+    <div class="sub" id="doctorNameLabel">Memuat...</div>
+  </div>
+  <button id="logoutBtn" class="btn-secondary" style="background:white;">Keluar</button>
+</div>
+
+<div class="container">
+
+  <div id="noDoctorProfileBox"></div>
+
+  <div class="card">
+    <div class="tabs">
+      <button class="tab-btn active" data-filter="today">Hari Ini</button>
+      <button class="tab-btn" data-filter="upcoming">Akan Datang</button>
+      <button class="tab-btn" data-filter="completed">Selesai</button>
+      <button class="tab-btn" data-filter="all">Semua</button>
+    </div>
+    <div id="bookingList"><p class="empty-state">Memuat daftar konsultasi...</p></div>
+  </div>
+
+</div>
+
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/supabaseClient.js"></script>
+<script src="../assets/js/dokter-dashboard.js"></script>
+</body>
+</html>
