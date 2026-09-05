@@ -55,6 +55,20 @@ function setupVideoFrame() {
   const jitsiRoomName = "RSAllamMedica-" + roomCode.replace(/[^a-z0-9]/gi, "");
   const url = `https://${CONFIG.JITSI_DOMAIN}/${jitsiRoomName}#config.prejoinPageEnabled=true`;
   document.getElementById("videoFrame").src = url;
+
+  // Sejak Agustus 2023, meet.jit.si mewajibkan orang PERTAMA yang membuka
+  // ruangan untuk login (Google/GitHub/Facebook) supaya jadi "moderator" dan
+  // memulai pertemuan. Login Google/Facebook sering gagal terbuka di dalam
+  // iframe, jadi kita sediakan tombol untuk membuka Jitsi di tab baru.
+  const openBtn = document.getElementById("openJitsiNewTab");
+  const fallbackText = document.getElementById("videoFallbackText");
+  if (openBtn) openBtn.href = url;
+  if (fallbackText) {
+    fallbackText.textContent =
+      mode === "dokter"
+        ? 'Jika video di atas macet di tulisan "menunggu moderator", klik tombol di bawah untuk membuka panggilan di tab baru, lalu login pakai akun Google/Microsoft/Facebook Anda. Setelah itu pasien bisa langsung bergabung tanpa perlu login.'
+        : 'Jika video di atas macet di tulisan "menunggu moderator", itu artinya dokter belum membuka & memulai panggilannya. Tunggu sebentar lalu refresh halaman ini, atau klik tombol di bawah untuk mencoba membuka di tab baru.';
+  }
 }
 
 async function loadBookingPasien() {
